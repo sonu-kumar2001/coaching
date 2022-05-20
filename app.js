@@ -8,16 +8,20 @@ const db = require("./db/config");
 //connect to database
 db.connect();
 
-const app = express();
-
 //.env
 require("dotenv").config();
+
+const routes = require("./routes/v1");
+
+const app = express();
 
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
+
+app.use("/api/v1", routes);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
